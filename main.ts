@@ -16,11 +16,11 @@ while (true) {
       DigitalPin.P1,
       DigitalPin.P2,
       PingUnit.Centimeters
-    ) 
+    )
     basic.showNumber(distanceToObject)
     basic.showIcon(IconNames.Happy)
     if (distanceToObject <= 10) {
-      radio.sendString("Too Close")
+      radio.sendString('Too Close')
     }
   }
   radio.onReceivedString(function (receivedString) {
