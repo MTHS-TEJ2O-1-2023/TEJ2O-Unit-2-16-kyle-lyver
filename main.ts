@@ -1,31 +1,31 @@
-/* Copyright (c) 2020 MTHS All rights reserved
- *
- * Created by: Kyle Lyver
- * Created on: Dec 2023
- * This program sends bluetooth messages
-*/
-
+// variable
 let distanceToObject: number = 0
-radio.setGroup(1)
 
-while (true) {
-  if (input.buttonIsPressed(Button.A) === true) {
-    // find distance from sonar
-    basic.clearScreen()
-    distanceToObject = sonar.ping(
-      DigitalPin.P1,
-      DigitalPin.P2,
-      PingUnit.Centimeters
-    )
-    basic.showNumber(distanceToObject)
+// setup
+radio.setGroup(76)
+basic.showIcon(IconNames.Happy)
+
+// distanceToObject setup
+input.onButtonPressed(Button.A, function () {
+  basic.clearScreen()
+  distanceToObject = sonar.ping(
+    DigitalPin.P1,
+    DigitalPin.P2,
+    PingUnit.Centimeters
+  )
+  // if distanceToObject is <= 10 show hello world if more than 10 then show hello universe
+  if (distanceToObject <= 10) {
+    radio.sendString('hello world')
+  } else {
+    radio.sendString('hello universe')
+
     basic.showIcon(IconNames.Happy)
-    if (distanceToObject <= 10) {
-      radio.sendString('Too Close')
-    }
   }
-  radio.onReceivedString(function (receivedString) {
-    basic.clearScreen()
-    basic.showString(receivedString)
-    basic.showIcon(IconNames.Happy)
-  })
-}
+})
+
+// radio.onReceivedString lets this microbit recieve strings from other microbits
+radio.onReceivedString(function (receivedString) {
+  basic.clearScreen()
+  basic.showString(receivedString)
+  basic.showIcon(IconNames.Happy)
+})
