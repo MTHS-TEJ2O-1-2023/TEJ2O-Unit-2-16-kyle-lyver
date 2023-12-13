@@ -1,29 +1,37 @@
-// variable
+/* Copyright (c) 2020 MTHS All rights reserved
+ *
+ * Created by: Kyle Lyver
+ * Created on: Nov 2023
+ * This program does bluetooth
+*/
+
+// variables
 let distanceToObject: number = 0
 
 // setup
 radio.setGroup(76)
 basic.showIcon(IconNames.Happy)
 
-// distanceToObject setup
+// on a button press, run the code
 input.onButtonPressed(Button.A, function () {
-  basic.clearScreen()
+  // finding the distance to the object
   distanceToObject = sonar.ping(
     DigitalPin.P1,
     DigitalPin.P2,
     PingUnit.Centimeters
   )
-  // if distanceToObject is <= 10 show hello world if more than 10 then show hello universe
+
+  // if the object is less than or equal to 10 cm away
   if (distanceToObject <= 10) {
-    radio.sendString('hello world')
+    radio.sendString('Too Close')
+    // if the object is more than 10 cm away
   } else {
-    radio.sendString('hello universe')
-
-    basic.showIcon(IconNames.Happy)
+    radio.sendString('Hi Clara')
   }
-})
+}
+)
 
-// radio.onReceivedString lets this microbit recieve strings from other microbits
+// receiving a message
 radio.onReceivedString(function (receivedString) {
   basic.clearScreen()
   basic.showString(receivedString)
